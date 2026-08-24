@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Perspectives</string>
+    <string name="pair_title">Add your photos</string>
+    <string name="pair_sub">Scan with your phone. Pick in Google Photos. They arrive here.</string>
+    <string name="pair_hint">or enter this code in the app</string>
+    <string name="offline_badge">Offline · playing from device</string>
+</resources>
