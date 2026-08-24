@@ -478,20 +478,20 @@ footer b{color:var(--text-2)}
 
             <!-- 5 SPEED -->
             <div class="layer speed" data-l="5">
-              <h2>Home feed — measured on the live API vs. proposed</h2>
+              <h2>Home feed — one request per category, or one call</h2>
               <div class="vs">
                 <div class="vcol b">
                   <span class="cap2 cap-x"></span>
-                  <span class="cap" style="all:unset;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)">Today</span>
+                  <span class="cap" style="all:unset;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)">Per category</span>
                   <span class="num" id="nBad">0.0s</span>
                   <div class="bar"><i id="tBad"></i></div>
-                  <span class="det">28 calls fired at once, one per category. Under that load each took <b>873–1168&nbsp;ms</b>. On its own a single call measures <b>297–649&nbsp;ms</b>. No cache-control, no CDN.</span>
+                  <span class="det">A home screen built one request per category, all fired together. Each one waits on the others, and the wall stays empty until the slowest finishes.</span>
                 </div>
                 <div class="vcol g">
-                  <span class="cap" style="all:unset;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)">Proposed</span>
+                  <span class="cap" style="all:unset;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3)">One call</span>
                   <span class="num" id="nGood">0.0s</span>
                   <div class="bar"><i id="tGood"></i></div>
-                  <span class="det">One aggregated feed call, cached at the edge, artwork pre-warmed into the device cache before it is needed.</span>
+                  <span class="det">One aggregated call, cached at the edge, with artwork warmed into the device cache before it is needed.</span>
                 </div>
               </div>
             </div>
@@ -518,38 +518,30 @@ footer b{color:var(--text-2)}
       <div class="pt" id="pTitle">Your phone</div>
       <div class="ps" id="pSub">idle</div>
       <div class="pv" id="pView"></div>
-      <button class="b w acc" id="liveBtn" type="button">Load real gallery data</button>
     </div>
   </div>
 
   <section class="ev">
     <div class="eh">
-      <h2>Every number, and where it came from</h2>
-      <span class="pill">re-verified 24 Aug 2026</span>
+      <h2>How this was put together</h2>
+      <span class="pill">concept · Aug 2026</span>
     </div>
-    <p class="lede">Nothing on this page is estimated. Each figure was measured directly in a browser against the public site, read out of the JavaScript the site serves to every visitor, or taken from Google's own documentation.</p>
+    <p class="lede">Everything on this page runs in your browser. There is no server behind it and nothing is sent anywhere. It exists to show one flow end to end rather than describe it.</p>
     <div class="bento" id="bento">
-      <div class="cell"><span class="k b">873–1168 ms</span><span class="d">Per-call response time while the explore screen has 28 requests in flight at once.</span><span class="s">Measured · network capture</span></div>
-      <div class="cell"><span class="k w">297–649 ms</span><span class="d">The same endpoint measured on its own, called sequentially. The gap between these two figures is the contention cost.</span><span class="s">Measured · re-verified</span></div>
-      <div class="cell"><span class="k b">28 calls</span><span class="d">Requests to the API on one explore-screen load — one per category, 15 items each.</span><span class="s">Measured · network capture</span></div>
-      <div class="cell"><span class="k w">content-type only</span><span class="d">The single response header returned. No cache-control, no ETag, no CDN, no compression header.</span><span class="s">Measured · response headers</span></div>
-      <div class="cell"><span class="k w">200 → 15</span><span class="d">Asking the trending endpoint for 200 artists returns 15. The limit parameter is accepted and discarded.</span><span class="s">Measured · live request</span></div>
-      <div class="cell"><span class="k">16 · 275</span><span class="d">Categories served by the public endpoint, and the sum of their totals. Largest is Nature &amp; Landscapes at 55; AI Generated holds 4.</span><span class="s">Public API response</span></div>
-      <div class="cell span2"><span class="k w">3 × the same founder</span><span class="d">The trending-artists list returns the founder's name three times and "Aryan iOS-1" twice alongside a separate "Aryan". The country list carries both "United States of America" and "United States" as distinct entries.</span><span class="s">Public API response</span></div>
-      <div class="cell"><span class="k">3:2 · 4K · 10-bit</span><span class="d">Panel geometry and colour depth for the 28.2″ and 50.5″ frames, with Bluetooth 5.2 and dual-band Wi-Fi.</span><span class="s">Published product page</span></div>
-      <div class="cell"><span class="k w">128 GB vs 64 GB</span><span class="d">The same page states both figures for on-device storage in two different sections.</span><span class="s">Published product page</span></div>
-      <div class="cell"><span class="k w">31 Mar 2025</span><span class="d">Google removed the full-library Photos scopes. Apps can now read only content their own app created.</span><span class="s">Google Photos API docs</span></div>
-      <div class="cell span2"><span class="k">QR is the documented route</span><span class="d">The Picker API returns a pickerUri, and Google's own guidance is to present it as a QR code for cross-device flows. The app then polls until picking completes. On a wall-mounted frame there is no other way in — which is exactly why the phone has to be the remote.</span><span class="s">Google Photos Picker docs</span></div>
-      <div class="cell"><span class="k">Picker already wired</span><span class="d">The shipped bundle calls the Picker API with the photospicker scope — while a legacy full-library OAuth path still ships beside it.</span><span class="s">Public JS bundle</span></div>
-      <div class="cell"><span class="k b">localhost:6060</span><span class="d">The OAuth redirect target inside the production bundle points at a developer machine.</span><span class="s">Public JS bundle</span></div>
-      <div class="cell"><span class="k w">No device layer</span><span class="d">The published API exposes no device registration, pairing, serial or provisioning call. A frame is modelled today as an album with a duration.</span><span class="s">Public JS bundle</span></div>
+      <div class="cell"><span class="k">Compose for TV</span><span class="d">The interface is laid out the way an Android TV build would be, at the panel's own 3:2 geometry so nothing is letterboxed.</span><span class="s">Interface</span></div>
+      <div class="cell"><span class="k">Phone first</span><span class="d">Photo selection happens on a phone because that is the only place Google allows it since March 2025. The frame shows a code and waits.</span><span class="s">Photos</span></div>
+      <div class="cell"><span class="k">Pairing</span><span class="d">A six digit code with a short lifetime, one live challenge at a time, and a lockout after repeated failures. The phone receives a token scoped to the device, never a user session.</span><span class="s">Security</span></div>
+      <div class="cell"><span class="k">Three transports</span><span class="d">Local discovery for speed, a relay for when the phone is elsewhere, Bluetooth for the state before any network exists.</span><span class="s">Remote</span></div>
+      <div class="cell"><span class="k">Offline first</span><span class="d">The album being played is held on the device, so losing the network changes nothing on the wall.</span><span class="s">Storage</span></div>
+      <div class="cell"><span class="k">No spinner</span><span class="d">The next image is decoded while the current one is still up. A loading indicator on a wall reads as a fault, not as patience.</span><span class="s">Detail</span></div>
+      <div class="cell span2"><span class="k">Generated artwork</span><span class="d">Every image here is drawn in your browser from gradients and shapes. No photograph belongs to anyone, and nothing has been copied from any gallery.</span><span class="s">Imagery</span></div>
     </div>
   </section>
 
   <footer>
-    <p><b>Sources.</b> Measured in a desktop browser against the public perspectives.art and gallery.perspectives.art sites and their public read API, re-verified on 24 August 2026. Product specifications from the published product page. Google Photos scope removal and Picker API behaviour from Google's developer documentation.</p>
-    <p>Nothing was logged into, submitted, modified, or scraped in bulk — only what the sites serve publicly to any visitor. Figures may change as the site is updated. Artwork here is generated in your browser and depicts no real photograph.</p>
-    <p>CrewNexa · independent concept work · not affiliated with Perspectives Digital Arts, Inc.</p>
+    <p><b>What this is.</b> An independent concept built by CrewNexa as part of a proposal. It is not a Perspectives product and is not affiliated with or endorsed by Perspectives Digital Arts, Inc. The name is used only to say who the concept was made for.</p>
+    <p>The page is self contained. It stores nothing, sends nothing, and loads nothing from anyone else. All artwork is generated in the browser and depicts no real photograph.</p>
+    <p>CrewNexa</p>
   </footer>
 
 </div>
@@ -641,10 +633,9 @@ function retint(cat){
 ============================================================ */
 var slidesEl=document.getElementById("slides"), biasEl=document.getElementById("bias");
 var wT=document.getElementById("wTitle"), wM=document.getElementById("wMeta"), wS=document.getElementById("wStamp");
-var idx=0, timer=null, paused=false, dur=8, live=false, liveItems=null;
+var idx=0, timer=null, paused=false, dur=8;
 
 function set(){
-  if(live&&liveItems&&liveItems.length) return liveItems;
   return PICKED.map(function(p,i){return {t:p.t,m:"your photos · generated placeholder",src:art(p.c,i+1),cat:p.c,stamp:"generated"};});
 }
 function build(){
@@ -713,7 +704,7 @@ var SC=[
  {n:"Display",p:"remote", L:3, c:"<b>Display mode.</b> Slow crossfade, the next frame decoded before the current one ends, per-album duration — the published API already models an album with a duration, so this extends what exists rather than replacing it. The surround light and the interface both retint to whatever is on screen. Drive it from the phone."},
  {n:"Browse", p:"remote", L:4, c:"<b>Browse mode, D-pad first.</b> Category names and counts here are exactly what the public API returned. Every row is lazy-loaded, so paging has to be trustworthy — today the endpoint returns 15 items no matter what limit you ask for."},
  {n:"Offline",p:"remote", L:3, c:"<b>Network dropped — the wall keeps working.</b> The published specification lists 128 GB on the device, and the marketing promises photos that stay there. Caching the active album locally is what makes both of those statements true."},
- {n:"Speed",  p:"remote", L:5, c:"<b>Measured, not estimated.</b> One explore-screen load fires 28 calls at once and each degrades to 873–1168 ms; called alone the same endpoint returns in 297–649 ms. Responses carry no cache-control and sit behind no CDN. One aggregated, edge-cached feed call is the fix."},
+ {n:"Speed",  p:"remote", L:5, c:"<b>A browser survives a slow home screen. A wall does not.</b> Building the first view out of one request per category means every row waits on every other row. One aggregated call, cached at the edge, with the next images already warmed on the device, is what makes a frame feel switched on rather than loading."},
  {n:"Stack",  p:"remote", L:6, c:"<b>Where the work actually sits.</b> The gallery, albums, subscriptions and payments already exist. The device layer does not — the published API has no registration, pairing or provisioning call anywhere in it. That gap is the job."}
 ];
 var cur=0, rail=document.getElementById("rail"), capBox=document.getElementById("capBox");
@@ -843,28 +834,6 @@ function phone(){
   var note=mk("div","pnote", cur===5 ? "Network down. Controls still run over the local link." : "Local discovery first, cloud relay as fallback.");
   pView.appendChild(g2); pView.appendChild(sl); pView.appendChild(note);
 }
-
-/* ============================================================
-   Live data (optional). Reads only the public endpoint the
-   site itself calls; images load from their own origin.
-============================================================ */
-var liveBtn=document.getElementById("liveBtn");
-liveBtn.addEventListener("click",function(){
-  if(live){ live=false; liveItems=null; liveBtn.textContent="Load real gallery data"; build(); return; }
-  liveBtn.disabled=true; liveBtn.textContent="Loading…";
-  fetch("https://api.perspectives.art/api/v1/getArtByCategory?category="+encodeURIComponent("Aerial Photography")+"&limit=15&page=0")
-  .then(function(r){return r.json();}).then(function(d){
-    var a=(d&&d.data&&d.data.content)?d.data.content:[];
-    a=a.filter(function(x){return x&&(x.artThumbnailUrl||x.imageUrl)&&x.artName;}).slice(0,6);
-    if(!a.length) throw 0;
-    liveItems=a.map(function(x){return {t:x.artName,m:(x.artistName||"Unknown")+(x.country?" · "+x.country:""),src:x.artThumbnailUrl||x.imageUrl,cat:"Aerial Photography",stamp:"live api"};});
-    live=true; liveBtn.disabled=false; liveBtn.textContent="Back to generated art";
-    build(); if(SC[cur].L!==3) go(3);
-  }).catch(function(){
-    liveBtn.disabled=false; liveBtn.textContent="Unavailable — retry";
-    setTimeout(function(){liveBtn.textContent="Load real gallery data";},2600);
-  });
-});
 
 /* ============================================================
    Chrome: clock, cache readout, reveal, keys
